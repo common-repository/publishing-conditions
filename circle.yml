@@ -1,0 +1,17 @@
+machine:
+  php:
+    version: 7.0.4
+  environment:
+    PATH: $HOME/.composer/vendor/bin:$PATH
+
+dependencies:
+  pre:
+    - sudo apt-get update; sudo apt-get install subversion
+
+test:
+  pre:
+    - |
+      composer global require wp-coding-standards/wpcs
+      phpcs --config-set installed_paths $HOME/.composer/vendor/wp-coding-standards/wpcs
+  override:
+    - phpcs --standard=phpcs.ruleset.xml $(find . -name '*.php')
